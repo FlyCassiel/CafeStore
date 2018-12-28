@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cafe.store.mapper.CartMapper">
+	<!-- 添加购物车数据 -->
+	<!-- void insert(Cart cart) -->
+	<insert id="insert" parameterType="cn.cafe.store.bean.Cart">
+		insert into t_cart
+		(userid,goodsid,count,taste)
+		values
+		(#{userid},#{goodsid},#{count},#{taste} )
+	</insert>
+	<!-- 查询指定对象的cart对象 -->
+	<!-- List<Cart> getCartByUserid(Integer userid); -->
+	<select id="getCartByUserid" resultType="cn.cafe.store.bean.Cart">
+		select 
+		id,
+		userid,
+		goodsid,
+		count,
+		taste
+		from 
+		t_cart 
+		where 
+		userid=#{userid}
+	</select>
+	<!-- 修改count 添加购物的时候把数据库中的数量修改为添加的数量-->
+	<!-- void update(Cart cart) -->
+	<update id="update" parameterType="cn.cafe.store.bean.Cart">
+		update 
+		t_cart 
+		set 
+		count=#{count} 
+		where 
+		userid=#{userid} and goodsid=#{goodsid}
+	</update>
+	<!-- 通过用户id查询用户的购物车商品信息 showCart.do -->
+	<!-- List<CartVo> selectAll(Integer userid); -->
+	<select id="selectAll" resultType="cn.cafe.store.Vo.CartVo">
+		select
+		t_goods.id as goodsid,
+		image,
+		title,
+		price,
+		count, 
+		t_cart.id as id,
+		t_cart.taste as taste
+		from
+		t_cart,t_goods
+		where
+		t_goods.id = t_cart.goodsid and userid = #{userid};
+	</select>
+	<!-- 删除t_cart表中的商品信息 -->
+	<!-- void deleteByCartId(Integer id) -->
+	<delete id="deleteByCartId">
+		delete 
+		from t_cart 
+		where id=#{id}
+	</delete>
+	<!-- 批量删除 -->
+	<!-- void deleteByBatch(Integer[] ids) -->
+	<delete id="deleteByBatch">
+		delete 
+		from 
+		t_cart 
+		where 
+		id 
+		in
+		<foreach collection="array" item="id" open="(" separator=","
+			close=")">${id}</foreach>
+	</delete>
+	<!-- 通过id修改商品的数量 -->
+	<!--void updateById(@Param("id") Integer id,@Param("count") Integer count); -->
+	<update id="updateById">
+		update 
+		t_cart 
+		set 
+		count=#{count} 
+		where id=#{id}
+	</update>
+</mapper>

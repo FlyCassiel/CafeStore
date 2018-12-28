@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cafe.store.mapper.CollectMapper">
+	<!-- 添加收藏夹数据 -->
+	<!-- void insert(Collect collect) -->
+	<insert id="insert" parameterType="cn.cafe.store.bean.Collect">
+		insert into t_collect
+		(userid,goodsid,title,price,image)
+		values
+		(#{userid},#{goodsid},#{title},#{price},#{image})
+	</insert>
+	<!-- 查询指定对象的cart对象 -->
+	<!-- List<Collect> getCollectByUserid(Integer userid); -->
+	<select id="getCollectByUserid" resultType="cn.cafe.store.bean.Collect">
+		select 
+		id,
+		userid,
+		goodsid,
+		count,
+		title,
+		price,
+		image
+		from 
+		t_collect
+		where 
+		userid=#{userid}
+	</select>
+	<!-- 修改count 添加购物的时候把数据库中的数量修改为添加的数量-->
+	<!-- void update(Collect collect) -->
+	<update id="update" parameterType="cn.cafe.store.bean.Collect">
+		update 
+		t_collect 
+		set 
+		count=#{count} 
+		where 
+		userid=#{userid} and goodsid=#{goodsid}
+	</update>
+	<!-- 通过用户id查询用户的购物车商品信息 showCart.do -->
+	<!-- List<Collect> selectAll(Integer userid); -->
+	<select id="selectAll" resultType="cn.cafe.store.bean.Collect">
+		select
+		id,
+		goodsid,
+		image,
+		title,
+		price,
+		count 
+		from
+		t_collect
+		where
+		userid = #{userid};
+	</select>
+	<!-- 批量删除收藏夹中的商品信息 -->
+	<!-- void deleteByBatch(Integer[] ids) -->
+	<delete id="deleteByBatch">
+		delete 
+		from 
+		t_collect 
+		where 
+		goodsid 
+		in
+		<foreach collection="array" item="goodsid" open="(" separator=","
+			close=")">${goodsid}</foreach>
+	</delete>
+	<!-- 得到所有的收藏夹信息通过收藏的多少分组  -->
+	<!-- List<Collect> getCollect(); -->
+	<select id="getCollect" resultType="cn.cafe.store.bean.Collect">
+		select
+		id,
+		goodsid,
+		image,
+		title,
+		price,
+		count,
+		count(goodsid) 
+		from
+		t_collect
+		order by count(goodsid)
+	</select>
+</mapper>

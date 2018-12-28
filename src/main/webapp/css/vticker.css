@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+
+#news-container {
+	width: 250px;
+	height: 48px;
+	margin: 0 auto;
+	margin-top: -48px;
+	margin-left: 20px;
+	padding: 0 10px;
+	overflow: hidden;
+}
+
+#news-container ul {
+	overflow: hidden;
+	width: 250px;
+}
+
+#news-container ul li {
+	display: block;
+	height: 48px;
+	background: #fff;
+}
+
+#news-container ul li div {
+	background: #fff;
+}

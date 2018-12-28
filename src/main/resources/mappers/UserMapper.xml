@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cafe.store.mapper.UserMapper">
+	<!-- 插入方法 -->
+	<!--void insert(User user); -->
+	<insert id="insert" parameterType="cn.cafe.store.bean.User">
+		insert into t_user (
+		username,password,
+		phone,email,gender,
+		created_user,created_time,
+		modified_user,modified_time
+		) values(
+		#{username},#{password},
+		#{phone},#{email},#{gender},
+		#{createdUser},#{createdTime},
+		#{modifiedUser},#{modifiedTime}
+		);
+	</insert>
+	<!-- 查询方法 -->
+	<!-- User getUserByUsername(String username); -->
+	<select id="getUserByUsername" resultType="cn.cafe.store.bean.User">
+		select
+		id,username,password,phone,email,gender,
+		created_user as createdUser,
+		created_time as createdTime,
+		modified_user as modifiedUser,
+		modified_time as modifiedTime,
+		image
+		from
+		t_user
+		where
+		username=#{username};
+	</select>
+	<!-- 通过邮箱查询数据，如果有返回非0的数如果没有返回值为0 -->
+	<!-- Integer getCountByEmail(String email); -->
+	<select id="getCountByEmail" resultType="java.lang.Integer">
+		select
+		count(email)
+		from
+		t_user
+		where
+		email=#{email}
+	</select>
+	<!-- 通过电话号码查询数据，如果有返回非0的数如果没有返回值为0 -->
+	<!-- Integer getCountByPhone(String phone); -->
+	<select id="getCountByPhone" resultType="java.lang.Integer">
+		select
+		count(phone)
+		from
+		t_user
+		where
+		phone=#{phone}
+	</select>
+
+	<!--根据id查询用户信息 -->
+	<!-- User getUserById(Integer id); -->
+	<select id="getUserById" resultType="cn.cafe.store.bean.User">
+		select
+		id,
+		username,
+		password,
+		phone,
+		email,
+		gender,
+		created_user as createdUser,
+		created_time as
+		createdTime,
+		modified_user as modifiedUser,
+		modified_time as
+		modifiedTime
+		from t_user
+		where
+		id=#{id}
+	</select>
+
+	<!-- 修改用户信息 -->
+	<!-- void update(User user); -->
+	<update id="update" parameterType="cn.cafe.store.bean.User">
+		update t_user
+		set
+		<if test="username!=null">
+			username=#{username},
+		</if>
+		<if test="password!=null">
+			password=#{password},
+		</if>
+		<if test="gender!=null">
+			gender=#{gender},
+		</if>
+		<if test="phone!=null">
+			phone=#{phone},
+		</if>
+		<if test="email!=null">
+			email=#{email},
+		</if>
+		modified_user=#{modifiedUser},
+		modified_time=#{modifiedTime}
+		where
+		id=#{id}
+	</update>
+	<!-- 得到所有的User对象的集合 -->
+	<!-- List<User> getUser(Integer offset,Integer count); -->
+	<select id="getUser" resultType="cn.cafe.store.bean.User">
+		select
+		id,
+		username,
+		password,
+		phone,
+		email,
+		gender,
+		created_user as createdUser,
+		created_time as createdTime,
+		modified_user as modifiedUser,
+		modified_time as modifiedTime
+		from t_user
+		<if test="offset!=null">
+		limit #{offset},#{count}
+	</if>
+	</select>
+	<!-- 得到所有用户的数量 -->
+	<!--Integer getCount();  -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select
+			count(id)
+		from t_user
+	</select>
+	<!--  修改头像-->
+ 	<!-- void updateImageById(@Param("userid") Integer userid,
+		   											@Param("image") String image); -->
+	<update id="updateImageById">
+	update t_user
+	set 
+	image=#{image}
+	where
+	id=#{uid}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

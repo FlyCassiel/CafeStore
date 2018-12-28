@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cafe.store.mapper.GoodsMapper">
+	<!-- 根据CategoryId查询到商品 -->
+	<!-- List<Goods> getGoodsByCategoryId(Integer categoryId,Integer offset,Integer 
+		count); -->
+	<select id="getGoodsByCategoryId" resultType="cn.cafe.store.bean.Goods">
+		select
+		id,
+		category_id as categoryId,
+		item_type as itemType,
+		title,
+		sell_point as sellPoint,
+		price,
+		num,
+		brand,
+		place,
+		image,
+		is_hot as isHot,
+		is_sale as isSale,
+		status,
+		created_user as createdUser,
+		created_time as createdTime,
+		modified_user as modifiedUser,
+		modified_time as modifiedTime
+		from t_goods
+		where
+		category_id=#{categoryId}
+		and num>0 and status=1
+		<if test="offset!=null">
+			limit #{offset},#{count}
+		</if>
+	</select>
+	<!--通过商品id查询所有的图片  -->
+	<!-- List<Images> getImagesByProductId(Integer ProductId);  -->
+	<select id="getImagesByProductId" resultType="cn.cafe.store.bean.Images">
+		select
+		id,
+		product_id as productId,
+		image,
+		created_user as createdUser,
+		created_time as createdTime,
+		modified_user as modifiedUser,
+		modified_time as modifiedTime
+		from t_images
+		where
+		product_id=#{productId}
+	</select>
+
+
+	<!-- 根据categoryId查询有多少条记录 -->
+	<!-- Integer getCount(Integer categoryId); -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*)
+		from t_goods
+		where category_id=#{categoryId}
+	</select>
+
+	<!-- 通过title查询商品 -->
+	<!--List<Goods> getGoodsByTitle( @Param("title") String title, @Param("offset") 
+		Integer offset, @Param("count") Integer count) -->
+	<select id="getGoodsByTitle" resultType="cn.cafe.store.bean.Goods">
+		select
+		id,
+		category_id as categoryId,
+		item_type as itemType,
+		title,
+		sell_point as sellPoint,
+		price,
+		num,
+		brand,
+		place,
+		image,
+		is_hot as isHot,
+		is_sale as isSale,
+		status,
+		created_user as createdUser,
+		created_time as createdTime,
+		modified_user as modifiedUser,
+		modified_time as modifiedTime
+		from
+		t_goods
+		where
+		title like
+		concat(concat('%',#{title}),'%') and status=1 and num>0
+		limit
+		#{offset},#{count}
+	</select>
+
+	<!-- 获取title的记录数 -->
+	<!-- Integer getCountByTitle(String title); -->
+	<select id="getCountByTitle" resultType="java.lang.Integer">
+		<!-- concat连接 -->
+		select count(*)
+		from t_goods
+		where title like
+		concat(concat('%',#{title}),'%')and status=1 and num>0
+	</select>
+
+	<!-- 通过id获取商品信息 -->
+	<!-- Goods getGoodsById(Integer id); -->
+	<select id="getGoodsById" resultType="cn.cafe.store.bean.Goods">
+		select
+		id,
+		category_id as categoryId,
+		item_type as itemType,
+		title,
+		sell_point as sellPoint,
+		price,
+		num,
+		brand,
+		place,
+		image,
+		is_hot as isHot,
+		is_sale as isSale,
+		status,
+		created_user as createdUser,
+		created_time as createdTime,
+		modified_user as modifiedUser,
+		modified_time as modifiedTime,
+		taste
+		from 
+			t_goods
+		where 
+			id=#{id}
+	</select>
+	<!--查询热卖产品  -->
+	<!-- List<Goods> getHotGoods(
+			@Param("offset") Integer offset,
+			@Param("count") Integer count); -->
+	<select id="getHotGoods" resultType="cn.cafe.store.bean.Goods">
+		select
+		id,
+		category_id as categoryId,
+		item_type as itemType,
+		title,
+		sell_point as sellPoint,
+		price,
+		num,
+		brand,
+		place,
+		image,
+		is_hot as isHot,
+		is_sale as isSale,
+		status,
+		created_user as createdUser,
+		created_time as createdTime,
+		modified_user as modifiedUser,
+		modified_time as modifiedTime
+		from
+		t_goods
+		where
+		is_hot=1
+		limit
+		#{offset},#{count}
+	</select>		
+	<!--查询促销产品  -->
+	<!-- List<Goods> getSaleGoods(
+			@Param("offset") Integer offset,
+			@Param("count") Integer count); -->
+	<select id="getSaleGoods" resultType="cn.cafe.store.bean.Goods">
+		select
+		id,
+		category_id as categoryId,
+		item_type as itemType,
+		title,
+		sell_point as sellPoint,
+		price,
+		num,
+		brand,
+		place,
+		image,
+		is_hot as isHot,
+		is_sale as isSale,
+		status,
+		created_user as createdUser,
+		created_time as createdTime,
+		modified_user as modifiedUser,
+		modified_time as modifiedTime
+		from
+		t_goods
+		where
+		is_sale=1
+		limit
+		#{offset},#{count}
+	</select>		
+	<!-- List<Goods> getquechaoGoods(
+			@Param("offset") Integer offset,
+			@Param("count") Integer count); -->
+	<select id="getquechaoGoods" resultType="cn.cafe.store.bean.Goods">
+		select
+		id,
+		category_id as categoryId,
+		item_type as itemType,
+		title,
+		sell_point as sellPoint,
+		price,
+		num,
+		brand,
+		place,
+		image,
+		is_hot as isHot,
+		is_sale as isSale,
+		status,
+		created_user as createdUser,
+		created_time as createdTime,
+		modified_user as modifiedUser,
+		modified_time as modifiedTime
+		from
+		t_goods
+		where
+		brand='雀巢'
+		limit
+		#{offset},#{count}
+	</select>		
+	<!--商品的立即支付功能 通过商品详情表直接到确定支付功能。  -->
+	<!--List<CartVo> getcartVoById(Integer id);  -->
+	<select id="getcartVoById" resultType="cn.cafe.store.Vo.CartVo">
+		select
+		t_goods.id as goodsid,
+		image,
+		title,
+		price
+		from
+		t_goods
+		where
+		t_goods.id = #{id};
+	</select>
+	<!--得到所有的商品信息  -->
+	<!--List<Goods> getGoods(
+			@Param("offset") Integer offset,
+    		@Param("count") Integer count);  -->
+    <select id="getGoods" resultType="cn.cafe.store.bean.Goods">
+    select
+		id,
+		category_id as categoryId,
+		item_type as itemType,
+		title,
+		sell_point as sellPoint,
+		price,
+		num,
+		brand,
+		place,
+		image,
+		is_hot as isHot,
+		is_sale as isSale,
+		status,
+		created_user as createdUser,
+		created_time as createdTime,
+		modified_user as modifiedUser,
+		modified_time as modifiedTime
+		from t_goods
+		<if test="offset!=null">
+			limit #{offset},#{count}
+		</if>
+	</select>
+	<!-- 得到所有商品的数量-->
+	<!--Integer getAllCount();  -->
+	<select id="getAllCount" resultType="java.lang.Integer">
+	select 
+	count(*)
+	from 
+	t_goods
+	</select>
+	<!-- 根据商品id删除商品信息 -->
+	<!-- Integer delete(Integer id); -->
+	<delete id="delete">
+	delete from
+	t_goods
+	where id=#{id}
+	</delete>
+	<!-- 修改商品信息 -->
+	<!--Goods updateAdmin(Goods goods);  -->
+	<update id="updateAdmin">
+		update t_goods
+		set
+		<if test="title!=null">
+			title=#{title},
+		</if>
+		<if test="price!=null">
+			price=#{price},
+		</if>
+		<if test="place!=null">
+			place=#{place},
+		</if>
+		<if test="brand!=null">
+			brand=#{brand},
+		</if>
+		<if test="isHot!=null">
+			is_hot=#{isHot},
+		</if>
+		<if test="categoryId!=null">
+			category_id=#{categoryId},
+		</if>
+		<if test="image!=null">
+			image=#{image},
+		</if>
+		<if test="sellPoint!=null">
+			sell_point=#{sellPoint},
+		</if>
+		modified_user=#{modifiedUser},
+		modified_time=#{modifiedTime}
+		where
+		id=#{id}
+	</update>
+	<!-- 添加商品信息 -->
+	<!--Integer insertGoodsAdmin(Goods goods);  -->
+	<insert id="insertGoodsAdmin" parameterType="cn.cafe.store.bean.Goods">
+		insert into 
+		t_goods (
+		category_id,
+		item_type,
+		title,
+		sell_point,
+		price,
+		num,
+		brand,
+		place,
+		image,
+		is_hot,
+		is_sale,
+		created_user,created_time,
+		modified_user,modified_time
+		) values(
+		#{categoryId},
+		#{itemType},
+		#{title},
+		#{sellPoint},
+		#{price},
+		#{num},
+		#{brand},
+		#{place},
+		#{image},
+		#{isHot},
+		#{isSale},
+		#{createdUser},#{createdTime},
+		#{modifiedUser},#{modifiedTime}
+		);
+	</insert>
+</mapper>

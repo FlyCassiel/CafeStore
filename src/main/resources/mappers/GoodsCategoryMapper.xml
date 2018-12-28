@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cafe.store.mapper.GoodsCategoryMapper">
+	<!-- 根据parentId查询到商品 -->
+	<!-- List<GoodsCategory> getGoodsCategoryByParentId(@Param("parentId") Integer 
+		parentId, @Param("offset") Integer offset,@Param("count") Integer count); -->
+	<select id="getGoodsCategoryByParentId" resultType="cn.cafe.store.bean.GoodsCategory">
+		select
+		id,
+		parent_id as ParentId,
+		name,status,
+		is_parent as isParent,
+		created_time as createdTime,
+		modified_time as modifiedTime,
+		created_user as createdUser,
+		modified_user as modifiedUser
+		from
+		t_goods_category
+		where
+		parent_id=#{parentId}
+		<if test="offset!=null">
+			limit #{offset},#{count}
+		</if>
+	</select>
+	<!-- 通过自增id 查询分类实体类对象 -->
+	<!-- GoodsCategory getGoodsCategoryById(Integer id); -->
+	<select id="getGoodsCategoryById" resultType="cn.cafe.store.bean.GoodsCategory">
+		select
+		id,
+		parent_id
+		as ParentId,
+		name,status,
+		is_parent as isParent,
+		created_time as
+		createdTime,
+		modified_time as modifiedTime,
+		created_user as createdUser,
+		modified_user as modifiedUser
+		from
+		t_goods_category
+		where
+		id=#{id}
+	</select>
+	<!--得到商品分类表信息 -->
+	<!-- List<GoodsCategory> getGoodsCategory(); -->
+	<select id="getGoodsCategory" resultType="cn.cafe.store.bean.GoodsCategory">
+		select
+		id,
+		parent_id as ParentId,
+		name,status,
+		is_parent as isParent,
+		created_time as createdTime,
+		modified_time as modifiedTime,
+		created_user as createdUser,
+		modified_user as modifiedUser
+		from
+		t_goods_category
+		<if test="offset!=null">
+			limit #{offset},#{count}
+		</if>
+	</select>
+	<!-- 得到分类信息的数据数量 -->
+	<!--Integer getCount(); -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select
+		count(id)
+		from
+		t_goods_Category
+	</select>
+	<!-- 查询分类信息 模糊查询 -->
+	<!--List<GoodsCategory> getGoodsCategoryByName(
+			@Param("name") String name,
+			@Param("offset") Integer offset,
+			@Param("count") Integer count); -->
+	<select id="getGoodsCategoryByName" resultType="cn.cafe.store.bean.GoodsCategory">
+		select
+		id,
+		parent_id as ParentId,
+		name,
+		status,
+		is_parent as isParent,
+		created_time as createdTime,
+		modified_time as modifiedTime,
+		created_user as createdUser,
+		modified_user as modifiedUser
+		from
+		t_goods_category
+		where
+		name like concat(concat('%',#{name}),'%')
+		<if test="offset!=null">
+			limit #{offset},#{count}
+		</if>
+	</select>
+	<!-- 根据名字 查询一共有多少条数据 -->
+	<!-- Integer getCountByname(String name); -->
+	<select id="getCountByname" resultType="java.lang.Integer">
+		select
+		count(name)
+		from t_goods_Category
+		where
+		name like concat(concat('%',#{name}),'%')
+	</select>
+	<!-- 删除指定id的分类信息 -->
+	<!-- void deleteGoodsCategory(Integer id); -->
+	<delete id="deleteUser">
+	delete from t_goods_Category
+	where id=#{id}
+	</delete>
+	<!-- 修改id的名称 -->
+	<!-- void updateGoodsCategory(
+			@Param("id") Integer id,
+			@Param("name") String name); -->
+	<update id="updateGoodsCategory">
+		update 
+		t_goods_Category
+		set
+		name=#{name}
+		where
+		id=#{id}
+	</update>
+	<!-- 后台的添加分类信息  -->
+	<!-- Integer insertGoodsCategoryAdmin(GoodsCategory goodsCategory); -->
+	<insert id="insertGoodsCategoryAdmin" parameterType="cn.cafe.store.bean.GoodsCategory">
+	insert into t_goods_category (
+		parent_id,
+		name,
+		created_user,created_time,
+		modified_user,modified_time
+		) values(
+		#{parentId},#{name},
+		#{createdUser},#{createdTime},
+		#{modifiedUser},#{modifiedTime}
+		);
+	</insert>
+</mapper>

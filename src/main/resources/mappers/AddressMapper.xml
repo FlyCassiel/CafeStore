@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--接口所在位置 -->
+<mapper namespace="cn.cafe.store.mapper.AddressMapper">
+	<!-- 插入地址信息 -->
+	<!-- void insert(Address address); -->
+	<insert id="insert" parameterType="cn.cafe.store.bean.Address">
+		insert into t_address
+		(
+		uid,
+		recv_name,
+		recv_province,
+		recv_city,
+		recv_area,
+		recv_district,
+		recv_addr,
+		recv_phone,
+		recv_tel,
+		recv_zip,
+		recv_tag,
+		is_default,
+		create_user,
+		create_time,
+		modified_user,
+		modified_time
+		)
+		values
+		(#{uid},
+		#{recvName},
+		#{recvProvince},
+		#{recvCity},
+		#{recvArea},
+		#{recvDistrict},
+		#{recvAddr},
+		#{recvPhone},
+		#{recvTel},
+		#{recvZip},
+		#{recvTag},
+		#{isDefault},
+		#{createUser},
+		#{createTime},
+		#{modifiedUser},
+		#{modifiedTime}
+		)
+	</insert>
+	<!--通过用户id 查询地址信息集合 一个人可能有多个收货地址的集合 -->
+	<!-- List<Address> getAddressByUid(Integer uid); -->
+	<select id="getAddressByUid" resultType="cn.cafe.store.bean.Address">
+		select
+		id,uid,recv_name
+		as recvName,recv_province as recvProvince,
+		recv_city as recvCity,
+		recv_area as recvArea,
+		recv_district as recvDistrict,
+		recv_addr as
+		recvAddr,
+		recv_phone as recvPhone,
+		recv_tel as recvTel,
+		recv_zip as
+		recvZip,
+		recv_tag as recvTag,
+		is_default as isDefault,
+		create_user as
+		createUser,
+		create_time as createTime,
+		modified_user as modifiedUser,
+		modified_time as modifiedTime
+		from
+		t_address
+		where
+		uid=#{uid}
+	</select>
+	
+	<!--设置非默认 所有的isDfault修改为0 -->
+	<!--void setCancle(Integer uid); -->
+	<update id="setCancle">
+		update t_address set
+		is_default=0
+		where
+		uid=#{uid}
+	</update>
+	<!-- 将点击事件的地址的isDfault修改为1 -->
+	<!--void setDefault(Integer id); -->
+	<update id="setDefault">
+		update t_address set
+		is_default=1
+		where
+		id=#{id}
+	</update>
+	
+	<!-- 通过id查询Address对象信息  回显收货人信息-->
+	<!-- Address getAddressById(Integer id); -->
+	<select id="getAddressById" resultType="cn.cafe.store.bean.Address"
+		parameterType="java.lang.Integer">
+		select
+		id,uid,recv_name as recvName,recv_province as
+		recvProvince,
+		recv_city as recvCity,
+		recv_area as recvArea,
+		recv_district as recvDistrict,
+		recv_addr as recvAddr,
+		recv_phone as
+		recvPhone,
+		recv_tel as recvTel,
+		recv_zip as recvZip,
+		recv_tag as recvTag,
+		is_default as isDefault,
+		create_user as createUser,
+		create_time as
+		createTime,
+		modified_user as modifiedUser,
+		modified_time as modifiedTime
+		from
+		t_address
+		where
+		id=#{id}
+	</select>
+	
+	<!--修改用户地址信息 -->
+	<!--void update(Address address); -->
+	<update id="update" parameterType="cn.cafe.store.bean.Address">
+		update t_address
+		set
+		recv_name=#{recvName},
+		recv_province=#{recvProvince},
+		recv_city=#{recvCity},
+		recv_area=#{recvArea},
+		recv_district=#{recvDistrict},
+		recv_addr=#{recvAddr},
+		recv_phone=#{recvPhone},
+		recv_tel=#{recvTel},
+		recv_zip=#{recvZip},
+		recv_tag=#{recvTag},
+		modified_user=#{modifiedUser},
+		modified_time=#{modifiedTime}
+		where
+		id=#{id}
+	</update>
+	<!-- 通过id删除地方信息 -->
+	<!-- Integer delete(Integer id); -->
+	<delete id="delete">
+		delete from
+		t_address
+		where
+		id=#{id}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

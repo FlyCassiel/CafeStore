@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cafe.store.mapper.AdminMapper">
+	<!-- 查询管理员的用户信息 -->
+	<!--Admin getAdminByUsername(String username);  -->
+	<select id="getAdminByUsername" resultType="cn.cafe.store.bean.Admin">
+	select id,username,password
+	from t_admin
+	where username=#{username}
+	</select>
+	<!--查询用户信息  模糊查询  -->
+	<!--List<User> getUserByUsername(String username);  -->
+	<select id="getUserByUsername" resultType="cn.cafe.store.bean.User">
+		select
+		id,
+		username,
+		password,
+		phone,
+		email,
+		gender,
+		created_user as createdUser,
+		created_time as createdTime,
+		modified_user as modifiedUser,
+		modified_time as modifiedTime
+		from t_user
+		where
+		username like concat(concat('%',#{username}),'%')
+		<if test="offset!=null">
+		limit #{offset},#{count}
+		</if>
+	</select>
+	<!--根据用户名查询一共有多少条数据  -->
+	<!-- Integer getCountByUsername(String username); -->
+	<select id="getCountByUsername" resultType="java.lang.Integer">
+	select count(*) 
+	from t_user
+	where 
+	username like concat(concat('%',#{username}),'%')
+	</select>
+	<!-- 删除指定用户id的对象 -->
+	<!--void deleteUser(Integer id);  -->
+	<delete id="deleteUser">
+	delete from t_user
+	where id=#{id}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cafe.store.mapper.OrderMapper">
+	<!-- 在订单中插入数据 -->
+	<!-- void insertOrder(Order order); -->
+	<insert id="insertOrder" parameterType="cn.cafe.store.bean.Order"
+		keyProperty="id" useGeneratedKeys="true">
+		insert into
+		t_order(userid,tradetime)
+		values(#{userid},now())
+	</insert>
+
+	<!-- 在订单详情列表页插入数据 -->
+	<!-- void insertOrderItem(OrderItem orderItem); -->
+	<insert id="insertOrderItem" parameterType="cn.cafe.store.bean.OrderItem">
+		insert into
+		t_orderitem
+		(userid,
+		goodsid,
+		image,
+		title,
+		price,
+		count,
+		paymentstatus,
+		orderstatus,
+		orderid)
+		values(#{userid},
+		#{goodsid},
+		#{image},
+		#{title},
+		#{price},
+		#{count},
+		#{paymentstatus},
+		#{orderstatus},
+		#{orderid})
+	</insert>
+
+	<!-- 确认支付，修改付款状态 -->
+	<!-- void updateStatus(Integer orderid); -->
+	<update id="updateStatus">
+		update t_orderitem
+		set
+		paymentstatus=1
+		where
+		orderid=#{orderid}
+	</update>
+
+	<!-- 查询该用户的所有订单 -->
+	<!-- List<OrderItemVo> getOrderItems(Integer userid); -->
+	<select id="getOrderItems" resultType="cn.cafe.store.Vo.OrderItemVo">
+		select
+		t_order.id as
+		orderid,
+		t_orderitem.id as orderitemId,
+		tradetime,
+		image,
+		title,
+		price,
+		count,
+		paymentstatus,
+		orderstatus
+		from
+		t_order,t_orderitem
+		where
+		t_order.id
+		= t_orderitem.orderid
+		and
+		t_order.userid=#{userid}
+	</select>
+	<!-- 通过用户id取得订单集合 -->
+	<!-- List<Order> getOrderByUid(Integer uid); -->
+	<select id="getOrderByUid" resultType="cn.cafe.store.bean.Order">
+		select
+		id,
+		tradetime
+		from
+		t_order
+		where
+		userid=#{userid}
+		<if test="offset!=null">
+			limit #{offset},#{count}
+		</if>
+	</select>
+	<!--得到该用户下的该订单的数量 -->
+	<!--Integer getCount(Integer uid); -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*)
+		from t_order
+		where
+		userid=#{uid}
+	</select>
+	<!--List<OrderItemVo> getOrderItemsByOrderid(Integer orderid); -->
+	<!-- 查询该订单号下的所有订单 -->
+	<select id="getOrderItemsByOrderid" resultType="cn.cafe.store.Vo.OrderItemVo">
+		select
+		t_order.id
+		as orderid,
+		t_orderitem.id as orderitemId,
+		tradetime,
+		image,
+		title,
+		price,
+		count,
+		paymentstatus,
+		orderstatus
+		from
+		t_order,t_orderitem
+		where
+		t_order.id
+		= t_orderitem.orderid
+		and
+		t_order.id=#{orderid}
+	</select>
+	<!-- 删除订单 -->
+	<!-- Integer deleteOrder(Integer orderid); -->
+	<delete id="deleteOrder">
+		delete from t_order
+		where id=#{orderid}
+	</delete>
+	<!--删除订单详情 -->
+	<!-- Integer deleteOrderItem(Integer orderid); -->
+	<delete id="deleteOrderItem">
+		delete from t_orderitem
+		where orderid=#{orderid}
+	</delete>
+	<!-- 得到所有的订单信息 -->
+	<!-- List<Order> getOrderAdmin(); -->
+	<select id="getOrderAdmin" resultType="cn.cafe.store.bean.Order">
+		select
+		id,
+    	tradetime,
+    	userid
+		from
+		t_order
+	</select>
+	<!--得到所有的订单详情信息 -->
+	<!-- List<OrderItem> getOrderItemAdmin(); -->
+	<select id="getOrderItemAdmin" resultType="cn.cafe.store.bean.OrderItem">
+		select
+		id,
+		userid,
+		goodsid,
+		image,
+		title,
+		price,
+		count,
+		paymentstatus,
+		orderstatus,
+		orderid
+		from
+		t_orderitem
+	</select>
+	<!-- 通过订单号得到订单信息  -->
+	<!-- Order getOrderByid(Integer id); -->
+	<select id="getOrderByid" resultType="cn.cafe.store.bean.Order">
+		select
+		id,
+    	tradetime,
+    	userid
+		from
+		t_order
+		where id=#{id}
+	</select>
+    <!-- 失效订单处理 -->
+    <!-- Integer updateOrderstatus(Integer orderid);  -->
+	<update id="updateOrderstatus">
+		update t_orderitem
+		set
+		orderstatus=2
+		where
+		orderid=#{orderid}
+	</update>
+	
+</mapper>

@@ -1,0 +1,117 @@
+@charset "utf-8";
+/*通用*/
+*{
+	margin:0;
+	padding:0;
+}
+a,a:hover{
+    text-decoration: none;
+    display: inline-block;
+}
+input:focus{
+    outline: 0;
+}
+input {
+    border: none;
+}
+.lf {
+    float: left;
+}
+.rt {
+    float: right;
+}
+.clear {
+    clear: both;
+}
+ul, li, p, h1, h2, h3, h4, h5, h6, dl, dt, dd {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    list-style: none;
+}
+
+/*页面顶部*/
+.fixed_nav{
+    width: 1200px;
+    height:50px;
+    transition: all 0.1s;
+    padding: 15px 3px 0;
+
+}
+#top{
+    width: 1200px;
+    display: block;
+    margin: 0 auto;
+    min-height: 50px;
+}
+
+#top_input {
+    margin-left:270px;
+    position: relative;
+}
+
+#top_input #input {
+    width: 409px;
+    height: 36px;
+    padding: 10px;
+    outline:none;
+    border: 1px solid black;
+    background-color: #F5F5F5;
+    box-sizing: border-box;
+    color:#A4A4A4;
+}
+#top_input>a{
+    position: absolute;
+    top:0px;
+    right:0px;
+}
+#top_input #search {
+    width: 36px;
+    height: 35px;
+    position:relative;
+    top: 0px;
+    right: 0px;
+}
+#top .rt ul {
+    text-align: center;
+    list-style: none;
+}
+
+#top .rt ul li {
+    float: left;
+    padding: 2px 14px;
+    line-height: 33px;
+}
+
+#top .rt ul li a {
+    text-align: center;
+}
+
+#top .rt ul li img {
+    vertical-align: middle;
+
+}
+#top .rt a{
+    cursor: pointer;
+    color: #808080;
+}
+#top .rt a:hover{
+    color: #0aa1ed;
+}
+#top .rt ul li b {
+    position: relative;
+    top: 0;
+    right: -11px;
+    font-weight: inherit;
+}
+
+
+.layout {
+    width: 1200px;
+    margin: 0 auto;
+}
+.layout ul li {
+    float: left;
+}
+
+
