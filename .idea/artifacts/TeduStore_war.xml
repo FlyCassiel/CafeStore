@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="TeduStore:war">
     <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="TeduStore-0.0.1-SNAPSHOT.war">
+    <root id="archive" name="CafeStore-0.0.1-SNAPSHOT.war">
       <element id="artifact" artifact-name="TeduStore:war exploded" />
     </root>
   </artifact>

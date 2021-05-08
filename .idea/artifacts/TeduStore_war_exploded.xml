@@ -1,10 +1,10 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="TeduStore:war exploded">
-    <output-path>$PROJECT_DIR$/target/TeduStore-0.0.1-SNAPSHOT</output-path>
+    <output-path>$PROJECT_DIR$/target/CafeStore-0.0.1-SNAPSHOT</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="TeduStore" />
+          <element id="module-output" name="CafeStore" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.3.8.RELEASE" />
@@ -36,9 +36,9 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/TeduStore-0.0.1-SNAPSHOT/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/CafeStore-0.0.1-SNAPSHOT/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="TeduStore/web/Web" />
+      <element id="javaee-facet-resources" facet="CafeStore/web/Web" />
     </root>
   </artifact>
 </component>
